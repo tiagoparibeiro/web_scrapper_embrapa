@@ -5,9 +5,15 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.service import Service
 import time
 
-def scrapper(project_dir):
+def scrapper():
     # Definir diretório onde os arquivos serão salvos
-    download_dir = project_dir + "PythonProject/data/raw"  # Altere para o caminho desejado
+    #download_dir = project_dir + "PythonProject/data/raw"  # Altere para o caminho desejado
+    #download_dir  = "~/data/raw"  # Altere para o caminho desejado
+
+    # Diretório de download baseado na estrutura do projeto
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    download_dir = os.path.abspath(os.path.join(base_dir, "..", "data", "raw"))
+    os.makedirs(download_dir, exist_ok=True)
 
     # Configurar as preferências do Chrome para baixar os arquivos automaticamente
     chrome_options = webdriver.ChromeOptions()
@@ -64,4 +70,4 @@ def scrapper(project_dir):
 
 project_dir = "/Users/tiagoribeiro/PycharmProjects/"
 
-scrapper(project_dir)
+scrapper()
