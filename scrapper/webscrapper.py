@@ -7,8 +7,6 @@ import time
 
 def scrapper():
     # Definir diretório onde os arquivos serão salvos
-    #download_dir = project_dir + "PythonProject/data/raw"  # Altere para o caminho desejado
-    #download_dir  = "~/data/raw"  # Altere para o caminho desejado
 
     # Diretório de download baseado na estrutura do projeto
     base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -16,6 +14,8 @@ def scrapper():
     os.makedirs(download_dir, exist_ok=True)
 
     # Configurar as preferências do Chrome para baixar os arquivos automaticamente
+
+    bin_dir = os.path.abspath(os.path.join(base_dir, "..", ".venv", "bin"))
     chrome_options = webdriver.ChromeOptions()
     prefs = {
         "download.default_directory": download_dir,  # Define o diretório de download
@@ -27,7 +27,8 @@ def scrapper():
     chrome_options.add_argument("--headless")  # Executa sem abrir o navegador (opcional)
 
     # Configurar o driver
-    chrome_driver_path = "/Users/tiagoribeiro/PycharmProjects/PythonProject/.venv/bin/chromedriver"  # Caminho correto
+    chrome_driver_path = bin_dir = os.path.join(bin_dir, "chromedriver")
+       #"/Users/tiagoribeiro/PycharmProjects/PythonProject/.venv/bin/chromedriver"  # Caminho correto
     service = Service(chrome_driver_path)
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
@@ -58,7 +59,7 @@ def scrapper():
             try:
                 download_button = driver.find_element(By.CLASS_NAME, "footer_content")  # Ajuste conforme o site
                 ActionChains(driver).move_to_element(download_button).click().perform()
-                print(f"✔ Download iniciado! Arquivo salvo em {download_dir}")
+                print(f"✔ Download Concluído! Arquivo salvo em {download_dir}")
             except Exception as e:
                 print(f"⚠ Erro ao clicar no botão: {e}")
 
@@ -67,7 +68,5 @@ def scrapper():
     # Fecha o navegador após todos os downloads
     driver.quit()
     return
-
-project_dir = "/Users/tiagoribeiro/PycharmProjects/"
 
 scrapper()
